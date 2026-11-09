@@ -31,13 +31,13 @@ function file = MakeVideo(source, output_dir)
     xlim(ax, xlim(ax) + [-5, 5]);
     ylim(ax, ylim(ax) + [-5, 5]);
     zlim(ax, zlim(ax) + [-5, 5]);
-    body = plot3(ax, path(1, 1), path(1, 2), path(1, 3), 'Color', [0, .48, .43], 'LineWidth', 4.5);
-    tip = plot3(ax, path(1, 1), path(1, 2), path(1, 3), 'o', 'MarkerFaceColor', [0, .48, .43], 'MarkerEdgeColor', 'w', 'MarkerSize', 9, 'LineWidth', 1.3);
+    body = plot3(ax, path(1, 1), path(1, 2), path(1, 3), 'Color', [.76, .075, .405], 'LineWidth', 4.5);
+    tip = plot3(ax, path(1, 1), path(1, 2), path(1, 3), 'o', 'MarkerFaceColor', [.76, .075, .405], 'MarkerEdgeColor', 'w', 'MarkerSize', 9, 'LineWidth', 1.3);
     tip_frame = CreateFrame(ax, 6, 13);
     key = legend(ax, [h.reference, body, h.entry, h.target], {'Planned path', 'Inserted centerline', 'Entry', 'Target'}, 'Orientation', 'horizontal', 'Box', 'off', 'FontSize', 11, 'AutoUpdate', 'off');
     set(key, 'Units', 'normalized', 'Position', [.045, .115, .61, .035]);
     annotation(fig, 'textbox', [.04, .925, .92, .06], 'String', sprintf('FLEXIBLE NEEDLE PLANNING  |  CASE %d', d.case_id), 'EdgeColor', 'none', 'FontName', 'Arial', 'FontSize', 26, 'FontWeight', 'bold', 'Color', [.10, .19, .27]);
-    phase = annotation(fig, 'textbox', [.045, .855, .62, .045], 'String', '', 'EdgeColor', 'none', 'FontName', 'Arial', 'FontSize', 16, 'FontWeight', 'bold', 'Color', [0, .45, .40]);
+    phase = annotation(fig, 'textbox', [.045, .855, .62, .045], 'String', '', 'EdgeColor', 'none', 'FontName', 'Arial', 'FontSize', 16, 'FontWeight', 'bold', 'Color', [.61, .07, .32]);
     annotation(fig, 'textbox', [.045, .03, .60, .055], 'String', sprintf('%d spheres  |  T %.2f s  |  J %.3f s  |  S %.3f s\nReplay clearance %.4f mm', numel(d.radii), t(end), s.cost, s.selection_score, s.audit.clearance_lower_mm), 'EdgeColor', 'none', 'FontName', 'Arial', 'FontSize', 13, 'Color', [.25, .31, .36], 'HorizontalAlignment', 'center');
     annotation(fig, 'line', [.69, .69], [.07, .91], 'Color', [.85, .88, .90], 'LineWidth', 1);
     annotation(fig, 'textbox', [.715, .865, .27, .045], 'String', 'NEEDLE-TIP LOCAL FRAME', 'EdgeColor', 'none', 'FontName', 'Arial', 'FontSize', 17, 'FontWeight', 'bold', 'Color', [.10, .19, .27]);
@@ -76,10 +76,10 @@ function file = MakeVideo(source, output_dir)
         hold(axes_j, 'on');
         if j < 3
             plot(axes_j, t, values(:, j), 'Color', [.76, .80, .83], 'LineWidth', 1.4);
-            highlights(j) = plot(axes_j, t(1), values(1, j), 'Color', [0, .48, .43], 'LineWidth', 2.2);
+            highlights(j) = plot(axes_j, t(1), values(1, j), 'Color', [.76, .075, .405], 'LineWidth', 2.2);
         else
             stairs(axes_j, t, values(:, j), 'Color', [.76, .80, .83], 'LineWidth', 1.4);
-            highlights(j) = stairs(axes_j, t(1), values(1, j), 'Color', [0, .48, .43], 'LineWidth', 2.2);
+            highlights(j) = stairs(axes_j, t(1), values(1, j), 'Color', [.76, .075, .405], 'LineWidth', 2.2);
         end
         dots(j) = plot(axes_j, t(1), values(1, j), 'o', 'MarkerFaceColor', [.87, .47, .16], 'MarkerEdgeColor', 'none', 'MarkerSize', 5);
         cursors(j) = xline(axes_j, 0, ':', 'Color', [.57, .63, .67]);
@@ -126,7 +126,7 @@ function file = MakeVideo(source, output_dir)
         set(plane, 'XData', corners(1, :), 'YData', corners(2, :), 'ZData', corners(3, :));
         set(attitude, 'String', sprintf('Axial roll %.1f deg  |  Change %+.1f deg', state(7) * 180 / pi, (state(7) - q(1, 9)) * 180 / pi));
         view(ax, -58 + 110 * (frame - 1) / (frames - 1), 23 + 3 * sin(pi * (frame - 1) / (frames - 1)));
-        camlight(h.light, 'headlight');
+        camlight(h.light, -32, 38);
         if elapsed < 2
             label = 'Geometry and accepted offline trajectory';
         elseif progress < 1

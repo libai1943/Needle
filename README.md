@@ -1,62 +1,44 @@
-# Flexible Needle Trajectory Planning and Online Replanning
+# Flexible needle trajectory planning and online replanning
 
-MATLAB code accompanying the manuscript:
+MATLAB implementation accompanying *Computational optimal control for flexible needle trajectory planning and online replanning*, by Bai Li, Yakun Ouyang, Zhuyan Yin, Xinwei Wang, and Yongxiao Tian, for the *Journal of Computational Design and Engineering*.
 
-> **Computational Optimal Control for Flexible Needle Trajectory Planning and Online Replanning**  
-> Bai Li, Yakun Ouyang, Zhuyan Yin, et al.
+[Annotated animations on Bilibili](https://www.bilibili.com/video/BV1sfxzziEbz/) · [Example insertion video (MP4)](videos/1.mp4) · [Twenty benchmark geometries](Cases.mat)
 
-This repository is provided as supplementary material for peer review.
+![Representative graph routes, the selected needle trajectory, and an obstacle-triggered update](media/planning-and-replanning.png)
 
-## Overview
+*Left: geometric routes and the selected trajectory in benchmark case 8. Right: the accepted remaining trajectory after an obstacle moves into the original path. Pink denotes the selected or replanned trajectory.*
 
-The examples address three-dimensional trajectory planning for a flexible bevel-tip needle in environments containing obstacles. The repository includes offline planning, trajectory validation, visualization of states and controls, and optional animation.
+## Plan an insertion
 
-The current version also includes **online replanning demonstrations** that update the remaining trajectory in response to simulated needle-state deviations or changes in obstacle configuration.
-
-Please refer to the accompanying manuscript for the mathematical formulation, algorithmic details, and experimental analysis.
-
-## Requirements
-
-The supplied configuration uses:
-
-- MATLAB.
-- CasADi 3.6.1 with its MATLAB interface.
-- IPOPT with HSL MA97 support.
-
-MA97 must be available in the solver installation for the supplied configuration to run unchanged.
-
-Set `CASADI_ROOT` to the directory containing the `+casadi` folder. For example:
+Open MATLAB in the repository root. The examples were tested with MATLAB R2021b and CasADi 3.6.1. The supplied configuration uses IPOPT with the HSL MA97 linear solver; MA97 must be available to IPOPT. Set `CASADI_ROOT` to the directory that contains `+casadi` if the CasADi MATLAB interface is not already on the path.
 
 ```matlab
-setenv('CASADI_ROOT', 'C:/casadi');  % Adjust to your local installation.
+setenv('CASADI_ROOT', 'C:/casadi')
+[result, figures] = RunMe(8, false);
 ```
 
-Open MATLAB in the repository root before running the examples below.
+[RunMe.m](RunMe.m) accepts a case number from 1 to 20. The planner generates spatial routes with A*, selects geometrically distinct representatives, and uses them to initialize numerical optimal control solves. The motion cost penalizes insertion time, control effort, and changes in the controls, with an elevation-margin regularizer. Accepted trajectories are compared using an additional obstacle-proximity score evaluated on the physical geometry.
 
-## Quick Start
+The output includes the selected three-dimensional trajectory and nine traces: position, azimuth, elevation, axial roll, speed, acceleration, and axial rotation rate. Results are saved under `results/`. To animate an accepted solution that has already been saved, run `MakeVideo(8)`. The MP4 in `videos/8.mp4` follows the needle tip and displays its rotating local coordinate frame.
 
-### Offline planning
+## Replan after a single event
 
 ```matlab
-[result, figures] = RunMe(1, false);
+[output, figures] = RunOnlineReplanner();
 ```
 
-The first argument selects one of the 20 included cases. Set the second argument to `true` to generate a video.
-
-### Online replanning
+[RunOnlineReplanner.m](RunOnlineReplanner.m) generates a new scene, solves its offline problem, and builds a library of candidate sensitivity anchors. It then samples one event on the nominal trajectory. For a reproducible scene and event type, use an explicit seed:
 
 ```matlab
-[output, figures] = RunOnlineReplanner(1);
+[output, figures] = RunOnlineReplanner(260928, 'obstacle');
 ```
 
-This runs a simulation example using random seed `1`, including offline preparation and an online replanning event. Use an explicit seed when comparing repeated runs.
+| Event | What changes |
+| --- | --- |
+| `'position'` | The measured insertion depth shifts along the local trajectory tangent. |
+| `'orientation'` | The measured needle tip has an axial-roll deviation. |
+| `'obstacle'` | A sphere moves into the planned remaining path. |
 
-## Results
+For a state deviation, the planner queries the nearest anchor and tests whether its sensitivity prediction can be used. A correction is returned only after checking the trajectory constraints, the replayed motion, and nonlocal needle-body separation. If replanning requires a stop, the remaining problem starts from the measured stopped state. An obstacle change first triggers a check of the reference path; an intrusion calls for a stopped-state solve with the updated geometry.
 
-Outputs are saved under `results/`. Offline runs save the planning results and, for accepted trajectories, trajectory plots and state/control histories. Online runs create a timestamped subfolder containing saved results and replanning visualizations.
-
-Both entry points return result structures and figure handles for further inspection.
-
-## Scope
-
-This repository contains research software for simulation and peer-review evaluation. It is not intended for clinical use.
+The online demo writes static figures, the nominal solution, the sensitivity library, and the event response to a new folder under `results/`. The random scene and the 201-anchor setting belong to this demonstration. The article gives the configurations and fixed events used for its reported timing comparisons.

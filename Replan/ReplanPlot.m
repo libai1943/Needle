@@ -23,7 +23,7 @@ function figures = ReplanPlot(output)
         [sx, sy, sz] = sphere(40);
         center = event.centers(:, j) * mm;
         radius = d.radii(j) * mm;
-        surf(ax, center(1) + radius * sx, center(2) + radius * sy, center(3) + radius * sz, 'FaceColor', [.92, .3, .13], 'FaceAlpha', .35, 'EdgeColor', 'none', 'HandleVisibility', 'off');
+        surf(ax, center(1) + radius * sx, center(2) + radius * sy, center(3) + radius * sz, 'FaceColor', [.70, .21, .16], 'FaceAlpha', .88, 'FaceLighting', 'gouraud', 'AmbientStrength', .30, 'DiffuseStrength', .78, 'SpecularStrength', .55, 'SpecularExponent', 24, 'EdgeColor', 'none', 'HandleVisibility', 'off');
         old = event.old_center * mm;
         plot3(ax, [old(1), center(1)], [old(2), center(2)], [old(3), center(3)], ':', 'Color', [.92, .3, .13], 'LineWidth', 2, 'HandleVisibility', 'off');
     end
@@ -34,7 +34,7 @@ function figures = ReplanPlot(output)
     end
     if r.success
         v = reshape(r.z(2:end), [], 9);
-        handles(end + 1) = plot3(ax, v(:, 1) * mm, v(:, 2) * mm, v(:, 3) * mm, 'Color', [0, .55, .43], 'LineWidth', 3);
+        handles(end + 1) = plot3(ax, v(:, 1) * mm, v(:, 2) * mm, v(:, 3) * mm, 'Color', [.76, .075, .405], 'LineWidth', 3);
         labels{end + 1} = 'Accepted remaining trajectory';
     end
     points = [q(:, 1:3); (event.centers - d.radii)'; (event.centers + d.radii)'];
@@ -70,9 +70,9 @@ function figures = ReplanPlot(output)
         if r.success
             tv = r.event.time + (0:size(v, 1) - 1)' * r.z(1);
             if j >= 8
-                stairs(ax, tv, v(:, indices(j)) * factors(j), 'Color', [0, .55, .43], 'LineWidth', 1.8, 'DisplayName', 'Replanned');
+                stairs(ax, tv, v(:, indices(j)) * factors(j), 'Color', [.76, .075, .405], 'LineWidth', 1.8, 'DisplayName', 'Replanned');
             else
-                plot(ax, tv, v(:, indices(j)) * factors(j), 'Color', [0, .55, .43], 'LineWidth', 1.8, 'DisplayName', 'Replanned');
+                plot(ax, tv, v(:, indices(j)) * factors(j), 'Color', [.76, .075, .405], 'LineWidth', 1.8, 'DisplayName', 'Replanned');
             end
         end
         xline(ax, event.time, ':', 'Color', [.9, .4, .08], 'LineWidth', 1.3, 'HandleVisibility', 'off');

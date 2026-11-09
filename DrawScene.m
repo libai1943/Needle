@@ -7,12 +7,12 @@ function h = DrawScene(ax, result)
     grid(ax, 'on');
     box(ax, 'on');
     set(ax, 'Color', 'w', 'FontName', 'Arial', 'FontSize', 11, 'GridAlpha', .13, 'LineWidth', .8);
-    [sx, sy, sz] = sphere(28);
+    [sx, sy, sz] = sphere(64);
 
     for j = 1:numel(d.radii)
         r = d.radii(j) * mm;
         ctr = d.centers(:, j) * mm;
-        surf(ax, sx * r + ctr(1), sy * r + ctr(2), sz * r + ctr(3), 'FaceColor', [.55, .64, .72], 'FaceAlpha', .23, 'EdgeColor', 'none', 'FaceLighting', 'gouraud', 'HandleVisibility', 'off');
+        surf(ax, sx * r + ctr(1), sy * r + ctr(2), sz * r + ctr(3), 'FaceColor', [.14, .25, .4], 'FaceAlpha', .90, 'AmbientStrength', .30, 'DiffuseStrength', .78, 'SpecularStrength', .55, 'SpecularExponent', 24, 'SpecularColorReflectance', .72, 'EdgeColor', 'none', 'FaceLighting', 'gouraud', 'HandleVisibility', 'off');
     end
     h.reference = plot3(ax, path(:, 1), path(:, 2), path(:, 3), 'Color', [.72, .77, .80], 'LineWidth', 1.5);
     h.entry = plot3(ax, path(1, 1), path(1, 2), path(1, 3), 'o', 'MarkerFaceColor', [.13, .34, .62], 'MarkerEdgeColor', 'w', 'MarkerSize', 9, 'LineWidth', 1.1);
@@ -30,5 +30,5 @@ function h = DrawScene(ax, result)
     view(ax, -58, 23);
     camproj(ax, 'orthographic');
     set(ax, 'CameraViewAngleMode', 'auto');
-    h.light = camlight(ax, 'headlight');
+    h.light = camlight(ax, -32, 38);
 end

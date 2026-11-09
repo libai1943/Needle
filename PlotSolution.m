@@ -11,7 +11,7 @@ function figures = PlotSolution(result, output_dir)
     h = DrawScene(ax, result);
     set(h.reference, 'Visible', 'off');
     path = q(:, 1:3) * mm;
-    line = plot3(ax, path(:, 1), path(:, 2), path(:, 3), 'Color', [0, .48, .43], 'LineWidth', 3);
+    line = plot3(ax, path(:, 1), path(:, 2), path(:, 3), 'Color', [.76, .075, .405], 'LineWidth', 3);
     legend(ax, [line, h.entry, h.target], {'Selected trajectory', 'Entry', 'Target'}, 'Location', 'northoutside', 'Orientation', 'horizontal', 'Box', 'off');
     annotation(figures(1), 'textbox', [.07, .91, .90, .055], 'String', sprintf('CASE %d  |  %d obstacles  |  %d routes / %d representatives', d.case_id, numel(d.radii), result.routes.unique_count, numel(result.routes.selected)), 'EdgeColor', 'none', 'FontName', 'Arial', 'FontSize', 17, 'FontWeight', 'bold', 'Color', [.10, .19, .27]);
     annotation(figures(1), 'textbox', [.08, .025, .90, .075], 'String', sprintf('Insertion %.2f s    |    Cost J %.3f s    |    Score S %.3f s\nReplay clearance %.4f mm    |    Replay target error %.3g mm', s.check.duration, s.cost, s.selection_score, s.audit.clearance_lower_mm, s.audit.terminal_mm), 'EdgeColor', 'none', 'FontName', 'Arial', 'FontSize', 12, 'HorizontalAlignment', 'center', 'Color', [.22, .29, .34]);
@@ -27,7 +27,7 @@ function figures = PlotSolution(result, output_dir)
         if k >= 8
             stairs(ax, t, values, 'Color', [.82, .40, .12], 'LineWidth', 1.8);
         else
-            plot(ax, t, values, 'Color', [0, .48, .43], 'LineWidth', 1.8);
+            plot(ax, t, values, 'Color', [.76, .075, .405], 'LineWidth', 1.8);
         end
         grid(ax, 'on');
         box(ax, 'on');
