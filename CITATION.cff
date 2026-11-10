@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+message: "If you use the planners or benchmark cases in your research, please cite the associated journal article below."
+type: software
+title: "Needle: MATLAB code for flexible needle trajectory planning and online replanning"
+authors:
+  - family-names: "Li"
+    given-names: "Bai"
+  - family-names: "Ouyang"
+    given-names: "Yakun"
+  - family-names: "Yin"
+    given-names: "Zhuyan"
+  - family-names: "Wang"
+    given-names: "Xinwei"
+  - family-names: "Tian"
+    given-names: "Yongxiao"
+repository-code: "https://github.com/libai1943/Needle"
+preferred-citation:
+  type: article
+  title: "Computational optimal control for flexible needle trajectory planning and online replanning"
+  authors:
+    - family-names: "Li"
+      given-names: "Bai"
+    - family-names: "Ouyang"
+      given-names: "Yakun"
+    - family-names: "Yin"
+      given-names: "Zhuyan"
+    - family-names: "Wang"
+      given-names: "Xinwei"
+    - family-names: "Tian"
+      given-names: "Yongxiao"
+  journal: "Journal of Computational Design and Engineering"
