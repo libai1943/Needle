@@ -14,9 +14,11 @@ function reply = ReplanEvent(lib, event)
         if audit.feasible
             p = [event.start; event.centers(:)];
             check = ReplanValidate(z, dd, lib.config, 'online', p);
-            reply.action = 'unchanged reference accepted';
-            reply.result = struct('success', true, 'method', 'unchanged_reference', 'z', z, 'audit', audit, 'check', check, 'event', event, 'total_ms', 0);
-            return
+            if check.feasible
+                reply.action = 'unchanged reference accepted';
+                reply.result = struct('success', true, 'method', 'unchanged_reference', 'z', z, 'audit', audit, 'check', check, 'event', event, 'total_ms', 0);
+                return
+            end
         end
     end
     fast = ReplanReplan(lib, event, struct('fast_only', true));
