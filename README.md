@@ -1,12 +1,23 @@
 # Flexible needle trajectory planning and online replanning
 
-This repository accompanies the following research article. **If you use the planner, the benchmark cases, or the replanning implementation in your research, please cite the paper.**
+[![Publication status](https://img.shields.io/badge/JCDE-Accepted-00629B)](https://doi.org/10.1093/jcde/qwag107)
+![Implementation](https://img.shields.io/badge/MATLAB-CasADi%20%2B%20IPOPT-555555)
 
-> Bai Li, Yakun Ouyang, Zhuyan Yin, Xinwei Wang, and Yongxiao Tian. **Computational optimal control for flexible needle trajectory planning and online replanning.** *Journal of Computational Design and Engineering*.
+MATLAB implementations of computational optimal control for flexible bevel-tip needle trajectory planning and online replanning.
 
-[Download BibTeX](CITATION.bib) · [Citation metadata](CITATION.cff) · [Paper code release](https://github.com/libai1943/Needle/releases) · [Annotated animations](https://www.bilibili.com/video/BV1sfxzziEbz/)
+[Read the final author manuscript](./Needle_Final_Author_Version.pdf) · [Publisher DOI](https://doi.org/10.1093/jcde/qwag107) · [Run a benchmark](#plan-an-insertion) · [Replan after an event](#replan-after-one-event) · [Read the implementation](#how-the-matlab-functions-fit-together)
 
-[Download ZIP](https://github.com/libai1943/Needle/archive/refs/heads/main.zip) · [Run a benchmark](#plan-an-insertion) · [Replan after an event](#replan-after-one-event) · [Read the implementation](#how-the-matlab-functions-fit-together)
+## Accompanying paper
+
+**Bai Li, Yakun Ouyang, Zhuyan Yin, Xinwei Wang, and Yongxiao Tian**, *Computational optimal control for flexible needle trajectory planning and online replanning*.
+
+**Accepted by Journal of Computational Design and Engineering on November 13, 2026.** DOI: [10.1093/jcde/qwag107](https://doi.org/10.1093/jcde/qwag107).
+
+**[Download the final author manuscript (PDF)](./Needle_Final_Author_Version.pdf)** — the accepted manuscript, typeset by the authors in an IEEE Transactions-style two-column layout, with the complete text, mathematical formulations, figures, tables, and references. This is an author-prepared version; the journal of record is *Journal of Computational Design and Engineering*.
+
+**If you use the planner, the benchmark cases, or the replanning implementation in your research, please cite the paper.**
+
+[Download BibTeX](CITATION.bib) · [Citation metadata](CITATION.cff) · [Paper code release](https://github.com/libai1943/Needle/releases) · [Annotated animations](https://www.bilibili.com/video/BV1sfxzziEbz/) · [Download ZIP](https://github.com/libai1943/Needle/archive/refs/heads/main.zip)
 
 A bevel-tip needle steers by advancing and rotating about its shaft. A short spatial path around an obstacle is useful only if the needle can follow it and reach the target with admissible controls. This MATLAB implementation uses the time available before insertion to explore several routes and fit a needle motion to each. During insertion, it reuses the selected trajectory to correct a measured tip deviation or to plan a new remaining path after an obstacle moves.
 
